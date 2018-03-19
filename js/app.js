@@ -1,0 +1,5 @@
+var calculadora = ''
+
+function botonTamanio (){
+	
+}
