@@ -1,6 +1,6 @@
 //Declaración de variables más importantes
-var num1 = ; //Número 1
-var num2 = ; //Número 2
+var num1 = 0; //Número 1
+var num2 = 0; //Número 2
 var operacion ; //Operaciones a realizar
 
 var Calculadora = { //Objeto Calculadora
@@ -25,10 +25,83 @@ var Calculadora = { //Objeto Calculadora
 		var siete = document.getElementById('7');
 		var ocho = document.getElementById('8');
 		var nueve = document.getElementById('9');
-	}
-
-}
-
-
-document.getElementsByClassName('teclado')[0].getElementsByTagName('img').onclick = presionarBoton;
-//teclas width:23% a 21% y height:18% a 17%
+		
+		//Eventos onclick para cada botón
+		onC.onclick = function(e){
+			resetC();
+		}
+		masMenos.onclick = function(e){
+			menosBoton();
+		}
+		division.onclick = function(e){
+			num1 = igual.textContent;
+			operacion = '/';
+			borrar();
+		}
+		multiplicacion.onclick = function(e){
+			num1 = igual.textContent;
+			operacion = '*';
+			borrar();
+		}
+		suma.onclick = function(e){
+			num1= igual.textContent;
+			operacion = '+';
+			borrar();
+		}
+		resta.onclick = function(e){
+			num1= igual.textContent;
+			operacion = '-';
+			borrar();
+		}
+		punto.onclick = function(e){
+			colocarPunto();
+		}
+		igual.onclick = function(e){
+			num2 = igual.textContent;
+			operar();
+		}
+		cero.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "0";
+		}
+		uno.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "1";
+		}
+		dos.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "2";
+		}
+		tres.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "3";
+		}
+		cuatro.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "4";
+		}
+		cinco.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "5";
+		}
+		seis.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "6";
+		}
+		siete.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "7";
+		}
+		ocho.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "8";
+		}
+		nueve.onclick = function(e){
+      	resultado.textContent = resultado.textContent  + "9";
+		}
+	},
+	
+	botonTamano: function (){ //Efecto onclick de botones
+		var imagenes = document.getElementsByClassName('teclado')[0].getElementsByTagName('img');
+		for (var i = 0; i < imagenes[i].length; i++){
+			imagenes[i].addEventListener('click', function(){
+				this.style.transform='scale(0.3)';
+			});
+		}
+		
+			
+	},
+	
+										 
+};
