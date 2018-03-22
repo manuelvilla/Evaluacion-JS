@@ -3,6 +3,7 @@ var num1 = 0; //Número 1
 var num2 = 0; //Número 2
 var operacion ; //Operaciones a realizar
 
+
 var Calculadora = { //Objeto Calculadora
 	
 	init: function(){//Método de inicialización
@@ -29,15 +30,15 @@ var Calculadora = { //Objeto Calculadora
 		//Eventos onclick para cada botón
 		onC.onclick = function(e){
 			resetC();
-		}
+		};
 		masMenos.onclick = function(e){
 			menosBoton();
-		}
+		};
 		division.onclick = function(e){
 			num1 = igual.textContent;
 			operacion = '/';
 			borrar();
-		}
+		};
 		multiplicacion.onclick = function(e){
 			num1 = igual.textContent;
 			operacion = '*';
@@ -90,18 +91,22 @@ var Calculadora = { //Objeto Calculadora
 		nueve.onclick = function(e){
       	resultado.textContent = resultado.textContent  + "9";
 		}
+		this.botonTamano(); //Inicializar método Tamaño de Botones onclick
 	},
 	
-	botonTamano: function (){ //Efecto onclick de botones
-		var imagenes = document.getElementsByClassName('teclado')[0].getElementsByTagName('img');
-		for (var i = 0; i < imagenes[i].length; i++){
+	botonTamano: function(){ //Método de efecto para onclick en botones
+ 		var imagenes = document.getElementsByClassName('teclado')[0].getElementsByTagName('img');
+		for (var i = 0; i < imagenes.length; i++){
 			imagenes[i].addEventListener('click', function(){
-				this.style.transform='scale(0.3)';
+				this.style.transform='scale(0.9)';
+				var imagenes2 = this
+				setTimeout(function(){
+					imagenes2.style.transform='scale(1)';
+				}, 100);
 			});
-		}
-		
-			
+		}		
 	},
-	
 										 
 };
+
+Calculadora.init();
