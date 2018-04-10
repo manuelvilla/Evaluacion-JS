@@ -29,7 +29,7 @@ Permitir la secuencia de operaciones al presionar el botón igual (=) consecutiv
 	var operacion = ''; //Operaciones a realizar
 	var guardarNum = '0';
 	var iniciarNum = 1;
-	var puntoDec = 0;
+	var punto = 0;
 
 var Calculadora = { //Objeto Calculadora
 		
@@ -122,7 +122,6 @@ var Calculadora = { //Objeto Calculadora
 		//Inicialización de métodos
 		this.botonTamano();
 		this.botonOnc();
-		this.botonPunto();
 		this.botonNegativo();
 	},
 	
@@ -138,25 +137,34 @@ var Calculadora = { //Objeto Calculadora
 			});
 		}		
 	},
-	imprimirPantalla: function(valor){ //Método que imprime botones en pantalla (5.  Debes verificar si en la pantalla se encuentra sólo el número cero, que no se puedan agregar más números cero. Además debes hacer que si en pantalla está sólo el cero, al presionar otro número diferente, éste debe reemplazar al cero inicial.)
-		if (guardarNum=='0'||iniciarNum==1){ //Recoger número e inicializar
-			display.innerHTML=valor; //mostrar en pantalla
-			guardarNum=valor; 
-		}else {
-			display.innerHTML+=valor; //Concatenar números
-			guardarNum+=valor;
-		}
-		iniciarNum=0;
-	},
-	verificarCeros: function(valor){ //Método para verificar si hay 0 y concatenar los siguientes números
-		
-		
+	imprimirPantalla: function(valor){
+		if (guardarNum=="0" || iniciarNum==1  ) {	// inicializar un número, 
+            display.innerHTML=valor; //mostrar en pantalla
+            guardarNum=valor; //guardar número
+            if (valor==".") { //si escribimos una punto al principio del número
+               display.innerHTML="0."; //escribimos 0.
+               guardarNum=valor; //guardar número
+               punto=1; //cambiar estado de la punto
+               }
+           }
+           else { //continuar escribiendo un número
+               if (valor=="." && punto==0) { //si escribimos una punto decimal pòr primera vez
+                   display.innerHTML+=valor;
+                   guardarNum+=valor;
+                   punto=1; //cambiar el estado de la punto  
+               }
+               //si intentamos escribir una segunda punto decimal no realiza ninguna acción.
+               else if (valor=="." && punto==1) {} 
+               //Resto de casos: escribir un número del 0 al 9: 	 
+               else {
+                   display.innerHTML+=valor;
+                   guardarNum+=valor
+               }
+            }
+            iniciarNum=0 //el número está iniciado y podemos ampliarlo.
 	},
 	botonOnc: function(){ //Método para borrar números y mostrar el número 0
 		this.botonOnc = 0;
-	},
-	botonPunto: function(){ //Método para el botón de punto y concatenar números
-		this.botonPunto = 0;
 	},
 	botonNegativo: function(){ //Método para agregar el signo negativo a la izquierda de los números
 		this.botonNegativo = 0;
