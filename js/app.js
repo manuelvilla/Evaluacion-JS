@@ -27,6 +27,9 @@ Permitir la secuencia de operaciones al presionar el botón igual (=) consecutiv
 	var num1 = 0; //Número 1
 	var num2 = 0; //Número 2
 	var operacion = ''; //Operaciones a realizar
+	var guardarNum = '0';
+	var iniciarNum = 1;
+	var puntoDec = 0;
 
 var Calculadora = { //Objeto Calculadora
 		
@@ -53,8 +56,9 @@ var Calculadora = { //Objeto Calculadora
 		var display = document.getElementById('display');
 
 		//Eventos onclick para cada botón
-		division.onclick = function(e){
+		division.onclick = function(num1, num2){
 			Calculadora.imprimirPantalla('/');
+			return num1/num2;
 		};
 		multiplicacion.onclick = function(e){
 			Calculadora.imprimirPantalla('*');
@@ -127,16 +131,26 @@ var Calculadora = { //Objeto Calculadora
 		for (var i = 0; i < imagenes.length; i++){
 			imagenes[i].addEventListener('click', function(){
 				this.style.transform='scale(0.9)';
-				var imagenes2 = this
+				var imagenes2 = this;
 				setTimeout(function(){
 					imagenes2.style.transform='scale(1)';
 				}, 100);
 			});
 		}		
 	},
-	imprimirPantalla: function(valor){ //Método que imprime botones en pantalla (5. Crea los métodos que sean necesarios para que al presionar una tecla numérica, se muestre el número correspondiente en la pantalla. Debes verificar si en la pantalla se encuentra sólo el número cero, que no se puedan agregar más números cero. Además debes hacer que si en pantalla está sólo el cero, al presionar otro número diferente, éste debe reemplazar al cero inicial.)
-	display.innerHTML=(valor); 
-
+	imprimirPantalla: function(valor){ //Método que imprime botones en pantalla (5.  Debes verificar si en la pantalla se encuentra sólo el número cero, que no se puedan agregar más números cero. Además debes hacer que si en pantalla está sólo el cero, al presionar otro número diferente, éste debe reemplazar al cero inicial.)
+		if (guardarNum=='0'||iniciarNum==1){ //Recoger número e inicializar
+			display.innerHTML=valor; //mostrar en pantalla
+			guardarNum=valor; 
+		}else {
+			display.innerHTML+=valor; //Concatenar números
+			guardarNum+=valor;
+		}
+		iniciarNum=0;
+	},
+	verificarCeros: function(valor){ //Método para verificar si hay 0 y concatenar los siguientes números
+		
+		
 	},
 	botonOnc: function(){ //Método para borrar números y mostrar el número 0
 		this.botonOnc = 0;
