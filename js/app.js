@@ -9,13 +9,7 @@ Permitir realizar operaciones en cadena, es decir que el resultado de una operac
 
 Permitir la secuencia de operaciones al presionar el botón igual (=) consecutivamente después de una operación, repitiendo la operación y el segundo operando sobre el resultado obtenido.
 
-4. Para efectos de este proyecto sólo realizaremos las 4 operaciones básicas: suma, resta, multiplicación y división. El botón que indica raíz cuadrada sólo hace parte del diseño general de la calculadora y no es necesario que lo implementes.
-
 6. Crea un método que al presionar el botón ON/C se borren los números que estén en pantalla y se muestre sólo el número cero.
-
-7. Crea un método que al presionar la tecla del punto, lo añada a la derecha del número actual que se muestra en pantalla. Debes verificar si el punto ya está o no en pantalla para no adicionarlo más de una vez.
-
-8. Debes crear un método que añada el signo negativo al presionar la tecla +/- a un número en pantalla. Si el número sólo es un cero, no se debe agregar el signo, además debes verificar que si el signo menos ya está en pantalla, al presionar la tecla se borre.
 
 9. Realiza una validación para la pantalla, en la que sólo se puedan mostrar 8 dígitos. Si el número digitado, o el resultado de una operación posee un mayor número de dígitos, se deben mostrar sólo sus primeros 8 dígitos.
 
@@ -27,14 +21,16 @@ Permitir la secuencia de operaciones al presionar el botón igual (=) consecutiv
 	var num1 = 0; //Número 1
 	var num2 = 0; //Número 2
 	var operacion = ''; //Operaciones a realizar
-	var guardarNum = '0';
-	var iniciarNum = 1;
-	var punto = 0;
+	var guardarNum = '0'; //Guardar número en pantalla
+	var iniciarNum = 1; //Estado de número 0=no y 1=si
+	var punto = 0; //Estado de punto 0=no y 1=si
+	var numeroOp = 0; //Número en espera
+	var operacionAc='no'; //Estado de operación activa 0=no 1=si
 
 var Calculadora = { //Objeto Calculadora
 		
 	init: function(){//Método de inicialización
-		//Declaración de variables botones
+		//Declaración de variables botones y obtención con ID
 		var onC = document.getElementById('on');
 		var masMenos = document.getElementById('sign');
 		var division = document.getElementById('dividido');
@@ -54,68 +50,64 @@ var Calculadora = { //Objeto Calculadora
 		var ocho = document.getElementById('8');
 		var nueve = document.getElementById('9');
 		var display = document.getElementById('display');
+		var raizC = document.getElementById('raiz');
 
 		//Eventos onclick para cada botón
-		division.onclick = function(num1, num2){
-			Calculadora.imprimirPantalla('/');
-			return num1/num2;
+		masMenos.onclick = function(){
+			Calculadora.botonNegativo();
+		};
+		raizC.onclick = function (e){
+			Calculadora.botonRaiz();
+		};
+		division.onclick = function(e){
+			Calculadora.operaciones('/');
 		};
 		multiplicacion.onclick = function(e){
-			Calculadora.imprimirPantalla('*');
+			Calculadora.operaciones('*');
 		};
 		suma.onclick = function(e){
-			Calculadora.imprimirPantalla('+');
+			Calculadora.operaciones('+');
 		};
 		resta.onclick = function(e){
-			Calculadora.imprimirPantalla('-');
+			Calculadora.operaciones('-');
 		};
 		onC.onclick = function(e){
 			console.log('C');
 		};
-		igual.onclick = function(e){
-			Calculadora.imprimirPantalla('=');
+		igual.onclick = function(){
+			Calculadora.botonIgual();
 		};
 		punto.onclick = function(e){
 			Calculadora.imprimirPantalla('.');
 		};
 		cero.onclick = function(e){
-			console.log('0');
 			Calculadora.imprimirPantalla(0);
 		};
 		uno.onclick = function(e){
-			console.log('1');
 			Calculadora.imprimirPantalla(1);
 		};
 		dos.onclick = function(e){
-			console.log('2');
 			Calculadora.imprimirPantalla(2);
 		};
 		tres.onclick = function(e){
-			console.log('3');
 			Calculadora.imprimirPantalla(3);
 		};
 		cuatro.onclick = function(e){
-			console.log('4');
 			Calculadora.imprimirPantalla(4);
 		};
 		cinco.onclick = function(e){
-			console.log('5');
 			Calculadora.imprimirPantalla(5);
 		};
 		seis.onclick = function(e){
-			console.log('6');
 			Calculadora.imprimirPantalla(6);
 		};
 		siete.onclick = function(e){
-			console.log('7');
 			Calculadora.imprimirPantalla(7);
 		};
 		ocho.onclick = function(e){
-			console.log('8');
 			Calculadora.imprimirPantalla(8);
 		};
 		nueve.onclick = function(e){
-			console.log('9');
 			Calculadora.imprimirPantalla(9);
 		};
 	
@@ -126,34 +118,34 @@ var Calculadora = { //Objeto Calculadora
 	},
 	
 	botonTamano: function(){ //Método de efecto para onclick en botones
- 		var imagenes = document.getElementsByClassName('teclado')[0].getElementsByTagName('img');
+ 		var imagenes = document.getElementsByClassName('teclado')[0].getElementsByTagName('img'); //Obtenemos la clase teclado 0 y etiquetas img
 		for (var i = 0; i < imagenes.length; i++){
 			imagenes[i].addEventListener('click', function(){
-				this.style.transform='scale(0.9)';
+				this.style.transform='scale(0.9)'; //Hacer el tamaño original al 90% en el click
 				var imagenes2 = this;
 				setTimeout(function(){
 					imagenes2.style.transform='scale(1)';
-				}, 100);
+				}, 100); //Regresar al tamaño original en 0.1 segundos
 			});
 		}		
 	},
 	imprimirPantalla: function(valor){
-		if (guardarNum=="0" || iniciarNum==1  ) {	// inicializar un número, 
+		if (guardarNum=="0" || iniciarNum==1  ) {	// inicializar un número 
             display.innerHTML=valor; //mostrar en pantalla
             guardarNum=valor; //guardar número
             if (valor==".") { //si escribimos una punto al principio del número
-               display.innerHTML="0."; //escribimos 0.
+               display.innerHTML="0."; //escribimos 0 y después el punto
                guardarNum=valor; //guardar número
-               punto=1; //cambiar estado de la punto
+               punto=1; //cambiar estado del punto
                }
            }
            else { //continuar escribiendo un número
-               if (valor=="." && punto==0) { //si escribimos una punto decimal pòr primera vez
+               if (valor=="." && punto==0) { //si escribimos un punto por primera vez
                    display.innerHTML+=valor;
                    guardarNum+=valor;
-                   punto=1; //cambiar el estado de la punto  
+                   punto=1; //cambiar el estado del punto  
                }
-               //si intentamos escribir una segunda punto decimal no realiza ninguna acción.
+               //si intentamos escribir un segundo punto no realiza ninguna acción.
                else if (valor=="." && punto==1) {} 
                //Resto de casos: escribir un número del 0 al 9: 	 
                else {
@@ -161,13 +153,40 @@ var Calculadora = { //Objeto Calculadora
                    guardarNum+=valor
                }
             }
-            iniciarNum=0 //el número está iniciado y podemos ampliarlo.
+            iniciarNum=0 //el número está iniciado
+	},
+	operaciones: function(operador){
+		Calculadora.botonIgual();
+		numeroOp = guardarNum;
+		operacionAc = operador;
+		iniciarNum=1;
+	},
+	botonIgual: function(){
+		if (operacionAc=='no'){ //Sin operaciones guardadas
+			display.innerHTML=guardarNum; //Se muestra el número actual
+		} else {
+			var cadena=numeroOp+operacionAc+guardarNum; //Resolver numero 1 operador y numero 2
+			var solucion=eval(cadena); //String a número en solución
+			display.innerHTML=solucion; //Mostrar en pantalla el resultado
+			guardarNum=solucion; //Número guardado es solución
+			operacionAc='no';//Sin operaciones guardadas
+			iniciarNum=1; //Reiniciar pantalla
+		}
+	},
+	botonRaiz: function(){ //Raíz Cuadrada
+		guardarNum=Math.sqrt(guardarNum); //Número pulsado y su raíz 2
+		display.innerHTML=guardarNum; //Mostraren pantalla
+		operacionAc='no';
+		iniciarNum=1;
 	},
 	botonOnc: function(){ //Método para borrar números y mostrar el número 0
 		this.botonOnc = 0;
 	},
 	botonNegativo: function(){ //Método para agregar el signo negativo a la izquierda de los números
-		this.botonNegativo = 0;
+		var numeroNeg = Number(guardarNum);
+		numeroNeg = -numeroNeg; //Cambiar signo
+		guardarNum = String(numeroNeg); //to String
+		display.innerHTML=guardarNum; //Mostrar en pantalla
 	},
 										 
 };
