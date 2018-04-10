@@ -9,8 +9,6 @@ Permitir realizar operaciones en cadena, es decir que el resultado de una operac
 
 Permitir la secuencia de operaciones al presionar el botón igual (=) consecutivamente después de una operación, repitiendo la operación y el segundo operando sobre el resultado obtenido.
 
-6. Crea un método que al presionar el botón ON/C se borren los números que estén en pantalla y se muestre sólo el número cero.
-
 9. Realiza una validación para la pantalla, en la que sólo se puedan mostrar 8 dígitos. Si el número digitado, o el resultado de una operación posee un mayor número de dígitos, se deben mostrar sólo sus primeros 8 dígitos.
 
 10. El objeto Calculadora debe implementar las cuatro operaciones matemáticas básicas, de tal manera que al presionar un número y el signo aritmético, la pantalla quede vacía para indicar que la calculadora está en medio de una operación. Posteriormente se muestra el segundo número de la operación en pantalla. Para realizar la operación, debes asignar los métodos necesarios para que al presionar el botón igual, se ejecute el procedimiento correspondiente. Debes realizar métodos que reciban parámetros y retornan valores.:
@@ -18,9 +16,6 @@ Permitir la secuencia de operaciones al presionar el botón igual (=) consecutiv
 */
 
 	//Declaración de variables más importantes
-	var num1 = 0; //Número 1
-	var num2 = 0; //Número 2
-	var operacion = ''; //Operaciones a realizar
 	var guardarNum = '0'; //Guardar número en pantalla
 	var iniciarNum = 1; //Estado de número 0=no y 1=si
 	var punto = 0; //Estado de punto 0=no y 1=si
@@ -71,8 +66,8 @@ var Calculadora = { //Objeto Calculadora
 		resta.onclick = function(e){
 			Calculadora.operaciones('-');
 		};
-		onC.onclick = function(e){
-			console.log('C');
+		onC.onclick = function(){
+			Calculadora.botonOnc();
 		};
 		igual.onclick = function(){
 			Calculadora.botonIgual();
@@ -113,8 +108,6 @@ var Calculadora = { //Objeto Calculadora
 	
 		//Inicialización de métodos
 		this.botonTamano();
-		this.botonOnc();
-		this.botonNegativo();
 	},
 	
 	botonTamano: function(){ //Método de efecto para onclick en botones
@@ -150,10 +143,10 @@ var Calculadora = { //Objeto Calculadora
                //Resto de casos: escribir un número del 0 al 9: 	 
                else {
                    display.innerHTML+=valor;
-                   guardarNum+=valor
+                   guardarNum+=valor;
                }
             }
-            iniciarNum=0 //el número está iniciado
+            iniciarNum=0; //el número está iniciado
 	},
 	operaciones: function(operador){
 		Calculadora.botonIgual();
@@ -179,14 +172,19 @@ var Calculadora = { //Objeto Calculadora
 		operacionAc='no';
 		iniciarNum=1;
 	},
-	botonOnc: function(){ //Método para borrar números y mostrar el número 0
-		this.botonOnc = 0;
-	},
 	botonNegativo: function(){ //Método para agregar el signo negativo a la izquierda de los números
 		var numeroNeg = Number(guardarNum);
 		numeroNeg = -numeroNeg; //Cambiar signo
 		guardarNum = String(numeroNeg); //to String
 		display.innerHTML=guardarNum; //Mostrar en pantalla
+	},
+	botonOnc: function(){ //Método para borrar números y mostrar el número 0
+		display.innerHTML=0; //Escribir el 0 en pantalla
+		guardarNum = '0'; //El cero se guarda
+		punto=0; //punto reiniciado
+		iniciarNum=0; 
+		operacionAc='no'; //borrar operación pendiente
+		
 	},
 										 
 };
