@@ -9,6 +9,10 @@ Permitir realizar operaciones en cadena, es decir que el resultado de una operac
 
 Permitir la secuencia de operaciones al presionar el botón igual (=) consecutivamente después de una operación, repitiendo la operación y el segundo operando sobre el resultado obtenido.
 
+6. Crea un método que al presionar el botón ON/C se borren los números que estén en pantalla y se muestre sólo el número cero.
+
+8. Debes crear un método que añada el signo negativo al presionar la tecla +/- a un número en pantalla. Si el número sólo es un cero, no se debe agregar el signo, además debes verificar que si el signo menos ya está en pantalla, al presionar la tecla se borre.
+
 9. Realiza una validación para la pantalla, en la que sólo se puedan mostrar 8 dígitos. Si el número digitado, o el resultado de una operación posee un mayor número de dígitos, se deben mostrar sólo sus primeros 8 dígitos.
 
 10. El objeto Calculadora debe implementar las cuatro operaciones matemáticas básicas, de tal manera que al presionar un número y el signo aritmético, la pantalla quede vacía para indicar que la calculadora está en medio de una operación. Posteriormente se muestra el segundo número de la operación en pantalla. Para realizar la operación, debes asignar los métodos necesarios para que al presionar el botón igual, se ejecute el procedimiento correspondiente. Debes realizar métodos que reciban parámetros y retornan valores.:
@@ -16,6 +20,9 @@ Permitir la secuencia de operaciones al presionar el botón igual (=) consecutiv
 */
 
 	//Declaración de variables más importantes
+	var num1 = 0; //Número 1
+	var num2 = 0; //Número 2
+	var operacion = ''; //Operaciones a realizar
 	var guardarNum = '0'; //Guardar número en pantalla
 	var iniciarNum = 1; //Estado de número 0=no y 1=si
 	var punto = 0; //Estado de punto 0=no y 1=si
@@ -25,7 +32,7 @@ Permitir la secuencia de operaciones al presionar el botón igual (=) consecutiv
 var Calculadora = { //Objeto Calculadora
 		
 	init: function(){//Método de inicialización
-		//Declaración de variables botones y obtención con ID
+		//Declaración de variables botones
 		var onC = document.getElementById('on');
 		var masMenos = document.getElementById('sign');
 		var division = document.getElementById('dividido');
@@ -51,7 +58,7 @@ var Calculadora = { //Objeto Calculadora
 		masMenos.onclick = function(){
 			Calculadora.botonNegativo();
 		};
-		raizC.onclick = function (e){
+		raizC.onclick = function (){
 			Calculadora.botonRaiz();
 		};
 		division.onclick = function(e){
@@ -66,7 +73,7 @@ var Calculadora = { //Objeto Calculadora
 		resta.onclick = function(e){
 			Calculadora.operaciones('-');
 		};
-		onC.onclick = function(){
+		onC.onclick = function(e){
 			Calculadora.botonOnc();
 		};
 		igual.onclick = function(){
@@ -108,6 +115,8 @@ var Calculadora = { //Objeto Calculadora
 	
 		//Inicialización de métodos
 		this.botonTamano();
+		this.botonOnc();
+		this.botonNegativo();
 	},
 	
 	botonTamano: function(){ //Método de efecto para onclick en botones
@@ -143,10 +152,10 @@ var Calculadora = { //Objeto Calculadora
                //Resto de casos: escribir un número del 0 al 9: 	 
                else {
                    display.innerHTML+=valor;
-                   guardarNum+=valor;
+                   guardarNum+=valor
                }
             }
-            iniciarNum=0; //el número está iniciado
+            iniciarNum=0 //el número está iniciado
 	},
 	operaciones: function(operador){
 		Calculadora.botonIgual();
@@ -184,9 +193,7 @@ var Calculadora = { //Objeto Calculadora
 		punto=0; //punto reiniciado
 		iniciarNum=0; 
 		operacionAc='no'; //borrar operación pendiente
-		
-	},
-										 
+	}									 
 };
 
 Calculadora.init();
