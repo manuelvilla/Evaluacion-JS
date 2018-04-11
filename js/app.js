@@ -83,40 +83,38 @@ var Calculadora = { //Objeto Calculadora
 			Calculadora.imprimirPantalla('.');
 		};
 		cero.onclick = function(e){
-			Calculadora.imprimirPantalla(0);
+			Calculadora.imprimirPantalla('0');
 		};
 		uno.onclick = function(e){
-			Calculadora.imprimirPantalla(1);
+			Calculadora.imprimirPantalla('1');
 		};
 		dos.onclick = function(e){
-			Calculadora.imprimirPantalla(2);
+			Calculadora.imprimirPantalla('2');
 		};
 		tres.onclick = function(e){
-			Calculadora.imprimirPantalla(3);
+			Calculadora.imprimirPantalla('3');
 		};
 		cuatro.onclick = function(e){
-			Calculadora.imprimirPantalla(4);
+			Calculadora.imprimirPantalla('4');
 		};
 		cinco.onclick = function(e){
-			Calculadora.imprimirPantalla(5);
+			Calculadora.imprimirPantalla('5');
 		};
 		seis.onclick = function(e){
-			Calculadora.imprimirPantalla(6);
+			Calculadora.imprimirPantalla('6');
 		};
 		siete.onclick = function(e){
-			Calculadora.imprimirPantalla(7);
+			Calculadora.imprimirPantalla('7');
 		};
 		ocho.onclick = function(e){
-			Calculadora.imprimirPantalla(8);
+			Calculadora.imprimirPantalla('8');
 		};
 		nueve.onclick = function(e){
-			Calculadora.imprimirPantalla(9);
+			Calculadora.imprimirPantalla('9');
 		};
 	
 		//Inicialización de métodos
 		this.botonTamano();
-		this.botonOnc();
-		this.botonNegativo();
 	},
 	
 	botonTamano: function(){ //Método de efecto para onclick en botones
@@ -155,13 +153,18 @@ var Calculadora = { //Objeto Calculadora
                    guardarNum+=valor
                }
             }
+			console.log(guardarNum);
+			if (guardarNum.length>=8){
+				guardarNum.substring(0,8);
+			}
             iniciarNum=0 //el número está iniciado
 	},
 	operaciones: function(operador){
 		Calculadora.botonIgual();
-		numeroOp = guardarNum;
-		operacionAc = operador;
+		numeroOp = guardarNum; //12
+		operacionAc = operador; //*
 		iniciarNum=1;
+		console.log(numeroOp);
 	},
 	botonIgual: function(){
 		if (operacionAc=='no'){ //Sin operaciones guardadas
