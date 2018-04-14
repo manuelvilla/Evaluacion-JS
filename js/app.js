@@ -1,6 +1,4 @@
 /*
-General. Permitir realizar las 4 operaciones básicas entre dos números racionales, esto quiere decir que los números pueden ser naturales, enteros negativos, o decimales.
-
 El mayor número de dígitos por cada operando y del resultado es 8.
 
 Los resultados de todas las operaciones deben mostrarse sólo cuando se presione la tecla igual (=)
@@ -9,20 +7,11 @@ Permitir realizar operaciones en cadena, es decir que el resultado de una operac
 
 Permitir la secuencia de operaciones al presionar el botón igual (=) consecutivamente después de una operación, repitiendo la operación y el segundo operando sobre el resultado obtenido.
 
-6. Crea un método que al presionar el botón ON/C se borren los números que estén en pantalla y se muestre sólo el número cero.
-
-8. Debes crear un método que añada el signo negativo al presionar la tecla +/- a un número en pantalla. Si el número sólo es un cero, no se debe agregar el signo, además debes verificar que si el signo menos ya está en pantalla, al presionar la tecla se borre.
-
 9. Realiza una validación para la pantalla, en la que sólo se puedan mostrar 8 dígitos. Si el número digitado, o el resultado de una operación posee un mayor número de dígitos, se deben mostrar sólo sus primeros 8 dígitos.
-
-10. El objeto Calculadora debe implementar las cuatro operaciones matemáticas básicas, de tal manera que al presionar un número y el signo aritmético, la pantalla quede vacía para indicar que la calculadora está en medio de una operación. Posteriormente se muestra el segundo número de la operación en pantalla. Para realizar la operación, debes asignar los métodos necesarios para que al presionar el botón igual, se ejecute el procedimiento correspondiente. Debes realizar métodos que reciban parámetros y retornan valores.:
 
 */
 
 	//Declaración de variables más importantes
-	var num1 = 0; //Número 1
-	var num2 = 0; //Número 2
-	var operacion = ''; //Operaciones a realizar
 	var guardarNum = '0'; //Guardar número en pantalla
 	var iniciarNum = 1; //Estado de número 0=no y 1=si
 	var punto = 0; //Estado de punto 0=no y 1=si
@@ -130,7 +119,7 @@ var Calculadora = { //Objeto Calculadora
 		}		
 	},
 	imprimirPantalla: function(valor){
-		if (guardarNum=="0" || iniciarNum==1  ) {	// inicializar un número 
+		if (guardarNum=="0" || iniciarNum==1) {	// inicializar un número 
             display.innerHTML=valor; //mostrar en pantalla
             guardarNum=valor; //guardar número
             if (valor==".") { //si escribimos una punto al principio del número
@@ -142,6 +131,7 @@ var Calculadora = { //Objeto Calculadora
            else { //continuar escribiendo un número
                if (valor=="." && punto==0) { //si escribimos un punto por primera vez
                    display.innerHTML+=valor;
+				   display.innerHTML=display.innerHTML.substring(0,8);
                    guardarNum+=valor;
                    punto=1; //cambiar el estado del punto  
                }
@@ -150,21 +140,17 @@ var Calculadora = { //Objeto Calculadora
                //Resto de casos: escribir un número del 0 al 9: 	 
                else {
                    display.innerHTML+=valor;
+				   display.innerHTML=display.innerHTML.substring(0,8);
                    guardarNum+=valor
                }
-            }
-			console.log(guardarNum);
-			if (guardarNum.length>=8){
-				guardarNum.substring(0,8);
 			}
             iniciarNum=0 //el número está iniciado
 	},
 	operaciones: function(operador){
-		Calculadora.botonIgual();
-		numeroOp = guardarNum; //12
-		operacionAc = operador; //*
+		numeroOp = guardarNum;
+		operacionAc = operador; 
 		iniciarNum=1;
-		console.log(numeroOp);
+		display.innerHTML='';
 	},
 	botonIgual: function(){
 		if (operacionAc=='no'){ //Sin operaciones guardadas
@@ -172,10 +158,11 @@ var Calculadora = { //Objeto Calculadora
 		} else {
 			var cadena=numeroOp+operacionAc+guardarNum; //Resolver numero 1 operador y numero 2
 			var solucion=eval(cadena); //String a número en solución
-			display.innerHTML=solucion; //Mostrar en pantalla el resultado
-			guardarNum=solucion; //Número guardado es solución
+			display.innerHTML=solucion;
+			display.innerHTML=display.innerHTML.substring(0,8);//Mostrar en pantalla el resultado //Número guardado es solución
+			guardarNum=solucion;
 			operacionAc='no';//Sin operaciones guardadas
-			iniciarNum=1; //Reiniciar pantalla
+			iniciarNum=0; //Reiniciar pantalla	
 		}
 	},
 	botonRaiz: function(){ //Raíz Cuadrada
@@ -196,7 +183,7 @@ var Calculadora = { //Objeto Calculadora
 		punto=0; //punto reiniciado
 		iniciarNum=0; 
 		operacionAc='no'; //borrar operación pendiente
-	}									 
+	}								 
 };
 
 Calculadora.init();
